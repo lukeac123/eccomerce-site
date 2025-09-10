@@ -1,7 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { IncrementComponent } from "../IncrementComponent";
 import { ProductType } from "../../utils";
-import { jest } from "@jest/globals";
 
 const mockProduct: ProductType = {
   id: 10,

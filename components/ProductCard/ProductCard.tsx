@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { ProductCardType } from "../types";
+import { ProductCardType } from "../../utils";
 import { IncrementComponent } from "../IncrementComponent/IncrementComponent";
 import "./ProductCard.css";
 
