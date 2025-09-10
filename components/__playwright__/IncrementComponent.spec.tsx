@@ -1,4 +1,4 @@
-import { IncrementComponent } from "./IncrementComponent";
+import { IncrementComponent } from "../IncrementComponent/IncrementComponent";
 import { test, expect } from "../../playwright/accessibilityTest";
 import AxeBuilder from "@axe-core/playwright";
 import { ProductType } from "../../utils";

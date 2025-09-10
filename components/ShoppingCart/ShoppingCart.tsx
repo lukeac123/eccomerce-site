@@ -1,3 +1,4 @@
+"use client";
 import { IconShoppingBag } from "@tabler/icons-react";
 import {
   ProductType,

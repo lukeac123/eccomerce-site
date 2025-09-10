@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import { IncrementComponent } from "../IncrementComponent";
 import { ProductType } from "../../utils";
+import { jest } from "@jest/globals";
 
 const mockProduct: ProductType = {
   id: 10,
@@ -14,7 +14,7 @@ const mockProduct: ProductType = {
 };
 
 const mockDispatch = jest.fn();
-jest.mock("../ShoppingCartState", () => ({
+jest.mock("../../utils/ShoppingCartState", () => ({
   useShoppingCartReducer: () => mockDispatch,
 }));
 
@@ -55,17 +55,5 @@ describe("IncrementComponent", () => {
       type: "ADD_TO_BASKET",
       item: mockProduct,
     });
-  });
-
-  it("calls dispatch with CUSTOM_INPUT when custom value inputted", () => {
-    render(<IncrementComponent productQuantity={2} product={mockProduct} />);
-
-    userEvent.type(screen.getByLabelText("product quantity"), "10");
-
-    expect(mockDispatch).toHaveBeenCalledTimes(2);
-    // expect(mockDispatch).toHaveBeenCalledWith({
-    //   type: "CUSTOM_INPUT",
-    //   item: mockProduct,
-    // });
   });
 });

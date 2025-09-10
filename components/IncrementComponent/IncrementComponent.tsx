@@ -1,3 +1,4 @@
+"use client";
 import { IncrementComponentTypes, useShoppingCartReducer } from "../../utils";
 import { IconShoppingBagPlus, IconShoppingBagMinus } from "@tabler/icons-react";
 import "./IncrementComponent.css";
