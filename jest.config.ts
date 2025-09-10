@@ -14,7 +14,10 @@ const config: Config = {
   coverageProvider: "v8",
   testEnvironment: "jsdom",
   verbose: true,
-  testMatch: ["<rootDir>/**/*.test.ts", "<rootDir>/**/*.test.tsx"],
+  testMatch: [
+    "<rootDir>/components/__jest__/*.test.ts",
+    "<rootDir>/components/__jest__/*.test.tsx",
+  ],
   // Add more setup options before each test is run
   // setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 };

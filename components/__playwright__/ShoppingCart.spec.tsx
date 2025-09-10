@@ -1,6 +1,6 @@
 import { test, expect } from "../../playwright/accessibilityTest";
 import AxeBuilder from "@axe-core/playwright";
-import { ShoppingCart } from "./ShoppingCart";
+import { ShoppingCart } from "../ShoppingCart";
 
 test("Popover Trigger + classes applied", async ({ mount }) => {
   const component = await mount(<ShoppingCart />);

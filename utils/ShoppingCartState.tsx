@@ -6,7 +6,7 @@ export const ShoppingCartContext = createContext<ShoppingCartContextType>({});
 
 export const useShoppingCartContext = () => useContext(ShoppingCartContext);
 
-export const ShoppingCartReducer = createContext<Dispatch<ActionTypes>>(null);
+export const ShoppingCartReducer = createContext<Dispatch<ActionTypes>>({});
 
 export const useShoppingCartReducer = () => useContext(ShoppingCartReducer);
 

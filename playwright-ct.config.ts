@@ -4,7 +4,7 @@ import { defineConfig, devices } from "@playwright/experimental-ct-react";
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: "./components",
+  testDir: "./components/__playwright__",
   /* The base directory, relative to the config file, for snapshot files created with toMatchSnapshot and toHaveScreenshot. */
   snapshotDir: "./__snapshots__",
   /* Maximum time one test can run for. */
@@ -20,6 +20,7 @@ export default defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: "html",
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+  // testMatch: '*todo-tests/*.spec.ts',
 
   use: {
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
