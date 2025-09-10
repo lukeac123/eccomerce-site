@@ -1,4 +1,5 @@
-import { reducer, ProductType, ShoppingCartContextType } from "../utils";
+import { reducer } from "./ShoppingCartState";
+import { ProductType, ShoppingCartContextType } from "./types";
 
 //TODO: Test CUSTOM_INPUT - passing event rather than the product
 
