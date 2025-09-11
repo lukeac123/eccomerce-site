@@ -10,7 +10,7 @@ import { ProductType } from "../../utils";
 import { useState, useCallback, ChangeEvent } from "react";
 import "./ProductGrid.css";
 
-//TODO: Filter undefined on first function call so throwing error
+//TODO: fix on load more cateogries is initially empty, which is messing up the loading
 
 export const ProductGrid = ({ initialProducts, itemsPerPage }) => {
   const [products, setProducts] = useState<ProductType[]>(initialProducts);
@@ -36,7 +36,9 @@ export const ProductGrid = ({ initialProducts, itemsPerPage }) => {
   const getData = useCallback(async () => {
     try {
       const response = await fetch(
-        `https://dummyjson.com/products/category/${filter}?limit=20&skip=20`,
+        `https://dummyjson.com/products/category/${filter}?limit=${itemsPerPage}&skip=${
+          page * itemsPerPage
+        }`,
         { next: { revalidate: 3600 } }
       );
       if (!response.ok) {
