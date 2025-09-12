@@ -1,22 +1,33 @@
 "use client";
-import { useShoppingCartContext, filterProducts } from "../../utils";
+import {
+  useShoppingCartContext,
+  filterProducts,
+  ProductType,
+} from "../../utils";
 import { ProductCard } from "../ProductCard";
 import { Pagination } from "../Pagination";
-import { ProductType } from "../../utils";
 import { useState, useCallback, useEffect } from "react";
 import "./ProductGrid.css";
 
-export const ProductGrid = ({ initialProducts, itemsPerPage }) => {
+interface ProductGridType {
+  initialProducts: ProductType[];
+  itemsPerPage: number;
+}
+
+export const ProductGrid = ({
+  initialProducts,
+  itemsPerPage,
+}: ProductGridType) => {
   const [products, setProducts] = useState<ProductType[]>(initialProducts);
   const shoppingCartItems = useShoppingCartContext();
-  const [filter, setFilter] = useState<string | null>("");
+  const [filter, setFilter] = useState<string | null>(null);
   const [page, setPage] = useState<number>(1);
   const [loading, setLoading] = useState(false);
   const [noMoreProducts, setNoMoreProducts] = useState(false);
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<[] | null>(null);
+  const filteredProducts = filterProducts(products, filter);
 
   useEffect(() => {
-    console.log("useEffect");
     async function getCategories() {
       try {
         const response = await fetch(
@@ -27,14 +38,16 @@ export const ProductGrid = ({ initialProducts, itemsPerPage }) => {
         }
         const data = await response.json();
         setCategories(data);
-      } catch (error) {
-        console.log(error);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.error(
+            `Error in categories fetch, ProductGrid.tsx, ${error.message}`
+          );
+        }
       }
     }
     getCategories();
   }, []);
-
-  const filteredProducts = filterProducts(products, filter);
 
   const handleLoadMoreProducts = () => {
     getData(filter, page);
@@ -71,7 +84,7 @@ export const ProductGrid = ({ initialProducts, itemsPerPage }) => {
           setLoading(false);
           return;
         }
-        if (filter === "") setProducts((prev) => [...prev, ...data.products]);
+        if (filter === "" || filter === null) setProducts(data.products);
         else {
           setProducts(data.products);
         }
@@ -79,8 +92,9 @@ export const ProductGrid = ({ initialProducts, itemsPerPage }) => {
         setPage((prev) => prev + 1);
       } catch (error: unknown) {
         if (error instanceof Error) {
-          console.log(error.message);
+          console.error(`Error, ProductGrid.tsx, ${error.message}`);
         }
+        setLoading(false);
       }
     },
     [page, filter, itemsPerPage]
@@ -89,22 +103,23 @@ export const ProductGrid = ({ initialProducts, itemsPerPage }) => {
   return (
     <>
       <div>
-        {categories.map((category: { name: string; slug: string }) => {
-          return (
-            <div key={category.name}>
-              <input
-                id={category.slug}
-                name={category.slug}
-                value={category.slug}
-                type="checkbox"
-                checked={filter === category.slug}
-                onChange={(event) => handleFilterChange(event.target.value)}
-              />
-              <label htmlFor={category.name}>{category.name}</label>
-            </div>
-          );
-        })}
-        <button onClick={() => handleFilterChange(null)}>Reset</button>
+        {categories &&
+          categories.map((category: { name: string; slug: string }) => {
+            return (
+              <div key={category.name}>
+                <input
+                  id={category.slug}
+                  name={category.slug}
+                  value={category.slug}
+                  type="checkbox"
+                  checked={filter === category.slug}
+                  onChange={(event) => handleFilterChange(event.target.value)}
+                />
+                <label htmlFor={category.name}>{category.name}</label>
+              </div>
+            );
+          })}
+        <button onClick={() => handleFilterChange("")}>Reset</button>
       </div>
       <div className="productsContainer">
         {filteredProducts &&
