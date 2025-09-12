@@ -1,77 +1,110 @@
 "use client";
-import {
-  useShoppingCartContext,
-  getCategories,
-  filterProducts,
-} from "../../utils";
+import { useShoppingCartContext, filterProducts } from "../../utils";
 import { ProductCard } from "../ProductCard";
 import { Pagination } from "../Pagination";
 import { ProductType } from "../../utils";
-import { useState, useCallback, ChangeEvent } from "react";
+import { useState, useCallback, useEffect } from "react";
 import "./ProductGrid.css";
-
-//TODO: fix on load more cateogries is initially empty, which is messing up the loading
 
 export const ProductGrid = ({ initialProducts, itemsPerPage }) => {
   const [products, setProducts] = useState<ProductType[]>(initialProducts);
   const shoppingCartItems = useShoppingCartContext();
-  const [filter, setFilter] = useState("");
+  const [filter, setFilter] = useState<string | null>("");
   const [page, setPage] = useState<number>(1);
   const [loading, setLoading] = useState(false);
+  const [noMoreProducts, setNoMoreProducts] = useState(false);
+  const [categories, setCategories] = useState([]);
 
-  const categories = getCategories(products);
+  useEffect(() => {
+    console.log("useEffect");
+    async function getCategories() {
+      try {
+        const response = await fetch(
+          "https://dummyjson.com/products/categories"
+        );
+        if (!response.ok) {
+          console.error(`Error loading categories ${response.status}`);
+        }
+        const data = await response.json();
+        setCategories(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getCategories();
+  }, []);
 
   const filteredProducts = filterProducts(products, filter);
 
   const handleLoadMoreProducts = () => {
-    getData();
-    setPage((prev) => prev + 1);
+    getData(filter, page);
   };
 
-  const handleNewFilter = (event: ChangeEvent<HTMLInputElement>) => {
-    setFilter(event.target.value);
-    getData();
+  const handleFilterChange = (filter: string | null) => {
+    setPage(0);
+    setNoMoreProducts(false);
+    setFilter(filter);
+    getData(filter, 0);
   };
 
-  const getData = useCallback(async () => {
-    try {
-      const response = await fetch(
-        `https://dummyjson.com/products/category/${filter}?limit=${itemsPerPage}&skip=${
-          page * itemsPerPage
-        }`,
-        { next: { revalidate: 3600 } }
-      );
-      if (!response.ok) {
-        console.error(`${response.status}`);
-        throw new Error(`${response.status}`);
+  const getData = useCallback(
+    async (filter: string | null, page: number) => {
+      setLoading(true);
+      try {
+        const url =
+          filter === "" || !filter
+            ? `https://dummyjson.com/products?limit=${itemsPerPage}&skip=${
+                page * itemsPerPage
+              }`
+            : `https://dummyjson.com/products/category/${filter}?limit=${itemsPerPage}&skip=${
+                page * itemsPerPage
+              }`;
+        const response = await fetch(url, { next: { revalidate: 3600 } });
+        if (!response.ok) {
+          console.error(`${response.status}`);
+          throw new Error(`${response.status}`);
+        }
+        const data = await response.json();
+
+        if (data.products.length === 0) {
+          setNoMoreProducts(true);
+          setLoading(false);
+          return;
+        }
+        if (filter === "") setProducts((prev) => [...prev, ...data.products]);
+        else {
+          setProducts(data.products);
+        }
+        setLoading(false);
+        setPage((prev) => prev + 1);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.log(error.message);
+        }
       }
-      const data = await response.json();
-      setProducts((prev) => [...prev, ...data.products]);
-      setLoading(false);
-    } catch (error) {
-      console.log(error.message);
-    }
-  }, [page, filter]);
+    },
+    [page, filter, itemsPerPage]
+  );
 
   return (
     <>
       <div>
-        {categories.map((category: string) => {
+        {categories.map((category: { name: string; slug: string }) => {
           return (
-            <div key={category}>
+            <div key={category.name}>
               <input
-                id={category}
-                name={category}
-                value={category}
+                id={category.slug}
+                name={category.slug}
+                value={category.slug}
                 type="checkbox"
-                checked={filter === category}
-                onChange={(event) => handleNewFilter(event)}
+                checked={filter === category.slug}
+                onChange={(event) => handleFilterChange(event.target.value)}
               />
-              <label htmlFor={category}>{category}</label>
+              <label htmlFor={category.name}>{category.name}</label>
             </div>
           );
         })}
-        <button onClick={() => setFilter("")}>Reset</button>
+        <button onClick={() => handleFilterChange(null)}>Reset</button>
       </div>
       <div className="productsContainer">
         {filteredProducts &&
@@ -88,6 +121,7 @@ export const ProductGrid = ({ initialProducts, itemsPerPage }) => {
             );
           })}
       </div>
+      <>{noMoreProducts && "No More Products"}</>
       <>{loading && "...Loading More Products"}</>
       <Pagination
         itemsPerPage={itemsPerPage}
