@@ -12,7 +12,13 @@ import "./ProductGrid.css";
 
 //TODO: fix on load more cateogries is initially empty, which is messing up the loading
 
-export const ProductGrid = ({ initialProducts, itemsPerPage }) => {
+export const ProductGrid = ({
+  initialProducts,
+  itemsPerPage,
+}: {
+  initialProducts: ProductType[];
+  itemsPerPage: number;
+}) => {
   const [products, setProducts] = useState<ProductType[]>(initialProducts);
   const shoppingCartItems = useShoppingCartContext();
   const [filter, setFilter] = useState("");

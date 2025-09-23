@@ -24,6 +24,17 @@ export interface ProductType {
   availabilityStatus: "In Stock" | "Low Stock";
   qty?: number;
   price: number;
+  reviews: ReviewType[];
+  brand: string;
+}
+
+export interface ReviewType {
+  reviewerEmail: string;
+  reviewerName: string;
+  rating: string;
+  date: string;
+  comment: string;
+  brand: string;
 }
 
 export interface ProductCardType {

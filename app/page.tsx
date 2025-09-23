@@ -1,7 +1,6 @@
 import { AppHeader } from "../components";
-import { ShoppingCartStateProvider } from "../utils/ShoppingCartState";
 import { Suspense, lazy } from "react";
-import styles from "./page.module.css";
+import "./page.css";
 
 const ProductGrid = lazy(async () => import("../components/ProductGrid"));
 
@@ -16,6 +15,7 @@ export default async function Home() {
   );
   if (!response.ok) {
     console.error(response.status);
+    //TODO: Needs to be a better fallback than just the appHeader ?
     return (
       <>
         <AppHeader />
@@ -26,14 +26,11 @@ export default async function Home() {
 
   const products = data.products;
   return (
-    <ShoppingCartStateProvider>
-      <AppHeader />
-      <div className={styles.appContent}>
-        <h2>Product Items</h2>
-        <Suspense fallback={<>...Loading Product Items</>}>
-          <ProductGrid initialProducts={products} itemsPerPage={itemsPerPage} />
-        </Suspense>
-      </div>
-    </ShoppingCartStateProvider>
+    <div className="homePage">
+      <h2>Product Items</h2>
+      <Suspense fallback={<>...Loading Product Items</>}>
+        <ProductGrid initialProducts={products} itemsPerPage={itemsPerPage} />
+      </Suspense>
+    </div>
   );
 }

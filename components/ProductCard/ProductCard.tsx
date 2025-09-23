@@ -2,15 +2,19 @@ import { memo } from "react";
 import { ProductCardType } from "../../utils";
 import { IncrementComponent } from "../IncrementComponent/IncrementComponent";
 import "./ProductCard.css";
+import Link from "next/link";
 
 export const ProductCard = memo(
   ({ product, productQuantity }: ProductCardType) => {
-    const { title, description, thumbnail, category, availabilityStatus } =
+    const { title, description, thumbnail, category, availabilityStatus, id } =
       product;
 
     return (
       <div className="productCard">
         <div className="productCardContent">
+          <Link className="productCardLink" href={`./${id}`}>
+            Go to Product
+          </Link>
           <img src={thumbnail} className="productCardImage" alt={title} />
           <h2>{title}</h2>
           <div>{description}</div>
