@@ -53,6 +53,7 @@ export const ProductGrid = ({
     getData(filter, page);
   };
 
+  // On filter change, reset set the filter and return back to page 1
   const handleFilterChange = (filter: string | null) => {
     setPage(0);
     setNoMoreProducts(false);
@@ -84,10 +85,12 @@ export const ProductGrid = ({
           setLoading(false);
           return;
         }
-        if (filter === "" || filter === null) setProducts(data.products);
-        else {
-          setProducts(data.products);
-        }
+
+        // Check if load more products or change filter
+        page === 0
+          ? setProducts(data.products)
+          : setProducts((prev) => [...prev, ...data.products]);
+
         setLoading(false);
         setPage((prev) => prev + 1);
       } catch (error: unknown) {
