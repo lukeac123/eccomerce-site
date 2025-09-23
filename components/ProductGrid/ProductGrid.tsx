@@ -12,7 +12,13 @@ import "./ProductGrid.css";
 
 //TODO: Filter undefined on first function call so throwing error
 
-export const ProductGrid = ({ initialProducts, itemsPerPage }) => {
+export const ProductGrid = ({
+  initialProducts,
+  itemsPerPage,
+}: {
+  initialProducts: ProductType[];
+  itemsPerPage: number;
+}) => {
   const [products, setProducts] = useState<ProductType[]>(initialProducts);
   const shoppingCartItems = useShoppingCartContext();
   const [filter, setFilter] = useState("");

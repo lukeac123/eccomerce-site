@@ -1,4 +1,5 @@
 .productCard {
+    position: relative;
     display: flex;
     width: 400px;
     border: solid 1px;
@@ -6,12 +7,19 @@
     align-items: center;
     justify-content: center;
     justify-items: center;
+    padding: 10px
 }
+
+.productCardLink {
+    position: absolute;
+    right: 10px
+
+}
+
 
 .productCardImage {
     width: 100%;
     height: 300px
-
 }
 
 

@@ -1,4 +1,6 @@
-import "./globals.css";
+import { AppHeader } from "../components";
+import { ShoppingCartStateProvider } from "../utils/ShoppingCartState";
+import "./layout.css";
 
 export default function RootLayout({
   children,
@@ -7,7 +9,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <ShoppingCartStateProvider>
+          <AppHeader />
+          <div className="layoutContent">{children}</div>
+        </ShoppingCartStateProvider>
+      </body>
     </html>
   );
 }
