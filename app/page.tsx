@@ -1,39 +1,34 @@
-import { AppHeader } from "../components";
-import { ShoppingCartStateProvider } from "../utils/ShoppingCartState";
-import { Suspense, lazy } from "react";
+import { Suspense } from "react";
+import { FilterForm, ProductList, Pagination } from "../components";
 import styles from "./page.module.css";
 
-const ProductGrid = lazy(async () => import("../components/ProductGrid"));
+const ITEMS_PER_PAGE = 10;
 
-export default async function Home() {
-  const itemsPerPage = 20;
-  // Refresh data every hour
-  const response = await fetch(
-    `https://dummyjson.com/products?limit=${itemsPerPage}`,
-    {
-      next: { revalidate: 3600 },
-    }
-  );
-  if (!response.ok) {
-    console.error(response.status);
-    return (
-      <>
-        <AppHeader />
-      </>
-    );
-  }
-  const data = await response.json();
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Record<string, string>;
+}) {
+  const params = await searchParams;
 
-  const products = data.products;
+  const selectedCategory = params.category ?? "";
+  const currentPage = parseInt(params.page ?? 0);
+
   return (
-    <ShoppingCartStateProvider>
-      <AppHeader />
-      <div className={styles.appContent}>
-        <h2>Product Items</h2>
-        <Suspense fallback={<>...Loading Product Items</>}>
-          <ProductGrid initialProducts={products} itemsPerPage={itemsPerPage} />
-        </Suspense>
-      </div>
-    </ShoppingCartStateProvider>
+    <div className={styles.appContent}>
+      <h2>Product Items</h2>
+      <FilterForm />
+      <Suspense fallback={<>...Fallback</>}>
+        <ProductList
+          selectedCategory={selectedCategory}
+          itemsPerPage={ITEMS_PER_PAGE}
+          currentPage={currentPage}
+        />
+      </Suspense>
+      <Pagination
+        selectedCategory={selectedCategory}
+        currentPage={currentPage}
+      />
+    </div>
   );
 }

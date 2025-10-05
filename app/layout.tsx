@@ -1,4 +1,6 @@
 import "./globals.css";
+import { AppHeader } from "../components";
+import { ShoppingCartStateProvider } from "../utils/ShoppingCartState";
 
 export default function RootLayout({
   children,
@@ -7,7 +9,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <head>
+        <title>Eccomerce Website</title>
+      </head>
+      <body>
+        <ShoppingCartStateProvider>
+          <AppHeader />
+          {children}
+        </ShoppingCartStateProvider>
+      </body>
     </html>
   );
 }
