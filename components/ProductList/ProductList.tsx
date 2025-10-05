@@ -16,6 +16,8 @@ export async function ProductList({
   currentPage,
   itemsPerPage,
 }: ProductListType) {
+  // For sharing the url, if products.length < 1, then load in all products. don't skip any
+
   const fetchUrl =
     selectedCategory === ""
       ? `https://dummyjson.com/products?limit=${itemsPerPage}&skip=${
@@ -38,8 +40,6 @@ export async function ProductList({
 
   products =
     currentPage > 0 ? [...products, ...newProductsData] : newProductsData;
-
-  console.log(newProductsData);
 
   return (
     <div className="productsContainer">
