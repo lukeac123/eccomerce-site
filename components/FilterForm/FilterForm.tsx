@@ -34,7 +34,9 @@ export const FilterForm = () => {
   const pathname = usePathname();
 
   const handleFilterChange = (selectedCategory: string) => {
-    router.push(`${pathname}?category=${selectedCategory.toString()}&page=0`);
+    router.push(`${pathname}?category=${selectedCategory.toString()}&page=0`, {
+      scroll: false,
+    });
     setSelectedCategory(selectedCategory);
   };
 

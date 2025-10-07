@@ -15,7 +15,10 @@ export const Pagination = ({
 
   const handlePagination = (selectedCategory: string) => {
     currentPage = currentPage + 1;
-    router.push(`${pathname}?category=${selectedCategory}&page=${currentPage}`);
+    router.push(
+      `${pathname}?category=${selectedCategory}&page=${currentPage}`,
+      { scroll: false }
+    );
   };
 
   return (
