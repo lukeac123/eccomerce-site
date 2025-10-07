@@ -3,4 +3,5 @@ export * from "./IncrementComponent";
 export * from "./Pagination";
 export * from "./ProductCard";
 export * from "./ShoppingCart";
-export * from "./ProductGrid";
+export * from "./FilterForm";
+export * from "./ProductList";
