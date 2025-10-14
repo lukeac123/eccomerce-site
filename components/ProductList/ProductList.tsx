@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import { ProductType } from "../../utils";
 import { ProductCard } from "../ProductCard";
 import "./ProductList.css";
@@ -11,12 +12,11 @@ interface ProductListType {
 let products: [] = [];
 let newProductsData: [] = [];
 
-export async function ProductList({
-  selectedCategory,
-  currentPage,
-  itemsPerPage,
-}: ProductListType) {
-  // For sharing the url, if products.length < 1, then load in all products. don't skip any
+export async function ProductList({ itemsPerPage }: ProductListType) {
+  const cookieStore = await cookies();
+  const selectedCategory = cookieStore.get("category")?.value ?? "";
+
+  const currentPage = parseInt(cookieStore.get("page")?.value ?? 0);
 
   const fetchUrl =
     selectedCategory === ""
@@ -37,6 +37,8 @@ export async function ProductList({
       console.log(error.message);
     }
   }
+
+  console.log(selectedCategory, currentPage, products, newProductsData);
 
   products =
     currentPage > 0 ? [...products, ...newProductsData] : newProductsData;
