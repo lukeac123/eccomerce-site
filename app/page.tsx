@@ -30,8 +30,8 @@ export default async function Page({
         />
       </Suspense>
       <Pagination
-        selectedCategory={selectedCategory}
-        currentPage={currentPage}
+      // selectedCategory={selectedCategory}
+      // currentPage={currentPage}
       />
     </div>
   );

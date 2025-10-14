@@ -11,7 +11,7 @@ export const IncrementComponent = ({
 
   return (
     <div className="incrementComponent">
-      {productQuantity >= 0 ? (
+      {/* {productQuantity >= 0 ? (
         <>
           <button
             aria-label="decrement quantity"
@@ -34,14 +34,14 @@ export const IncrementComponent = ({
             <IconShoppingBagPlus />
           </button>
         </>
-      ) : (
-        <button
-          aria-label="add to cart"
-          onClick={() => dispatch({ type: "ADD_TO_BASKET", item: product })}
-        >
-          Add to Cart
-        </button>
-      )}
+      ) : ( */}
+      <button
+        aria-label="add to cart"
+        onClick={() => dispatch({ type: "ADD_TO_BASKET", item: product })}
+      >
+        Add to Cart
+      </button>
+      {/* )} */}
     </div>
   );
 };

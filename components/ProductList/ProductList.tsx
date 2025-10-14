@@ -38,7 +38,7 @@ export async function ProductList({ itemsPerPage }: ProductListType) {
     }
   }
 
-  console.log(selectedCategory, currentPage, products, newProductsData);
+  // console.log(selectedCategory, currentPage, products, newProductsData);
 
   products =
     currentPage > 0 ? [...products, ...newProductsData] : newProductsData;

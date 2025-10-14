@@ -26,6 +26,7 @@ export const FilterForm = () => {
           );
         }
       }
+    }
     getCategories();
   }, []);
 
