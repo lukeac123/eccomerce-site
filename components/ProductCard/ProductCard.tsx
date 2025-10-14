@@ -18,7 +18,7 @@ export const ProductCard = memo(
           <div>{availabilityStatus}</div>
           <IncrementComponent
             product={product}
-            productQuantity={productQuantity}
+            // productQuantity={productQuantity}
           />
         </div>
       </div>

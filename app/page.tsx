@@ -3,7 +3,6 @@ import { FilterForm, ProductList, Pagination } from "../components";
 import styles from "./page.module.css";
 
 //TODO: Look at how many times components are re-rendering, Padingation seems to re-render a lot
-//TODO: Stop page from scrolling back to the top on re-renders
 //TODO: Maybe Add limit and skip to give more flexibility. If i want to share the url with someone else,
 // will it load all the poroducts ? Maybe pagination shouldn't use search url ??
 
@@ -31,8 +30,8 @@ export default async function Page({
         />
       </Suspense>
       <Pagination
-        selectedCategory={selectedCategory}
-        currentPage={currentPage}
+      // selectedCategory={selectedCategory}
+      // currentPage={currentPage}
       />
     </div>
   );

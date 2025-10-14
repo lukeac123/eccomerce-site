@@ -1,32 +1,22 @@
 "use client";
-import { usePathname, useRouter } from "next/navigation";
 
-interface PaginationType {
-  selectedCategory: string;
-  currentPage: number;
-}
+import { startTransition, useState } from "react";
+import { setPage } from "./action";
 
-export const Pagination = ({
-  selectedCategory,
-  currentPage,
-}: PaginationType) => {
-  const router = useRouter();
-  const pathname = usePathname();
+export const Pagination = () => {
+  const [currentPage, setCurrentPage] = useState(0);
 
-  const handlePagination = (selectedCategory: string) => {
-    currentPage = currentPage + 1;
-    router.push(
-      `${pathname}?category=${selectedCategory}&page=${currentPage}`,
-      { scroll: false }
-    );
+  const handlePagination = () => {
+    setCurrentPage((prev) => prev + 1);
+    startTransition(() => {
+      setPage(`${currentPage}`);
+    });
   };
 
   return (
     <div>
       {currentPage}
-      <button onClick={() => handlePagination(selectedCategory)}>
-        Load More Products
-      </button>
+      <button onClick={handlePagination}>Load More Products</button>
     </div>
   );
 };

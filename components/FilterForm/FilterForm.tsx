@@ -1,7 +1,7 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, startTransition } from "react";
 import "./FilterForm.css";
-import { useRouter, usePathname } from "next/navigation";
+import { setNewCategory } from "./actions";
 
 export const FilterForm = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
@@ -30,14 +30,11 @@ export const FilterForm = () => {
     getCategories();
   }, []);
 
-  const router = useRouter();
-  const pathname = usePathname();
-
   const handleFilterChange = (selectedCategory: string) => {
-    router.push(`${pathname}?category=${selectedCategory.toString()}&page=0`, {
-      scroll: false,
-    });
     setSelectedCategory(selectedCategory);
+    startTransition(() => {
+      setNewCategory(selectedCategory);
+    });
   };
 
   return (
