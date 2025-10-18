@@ -1,6 +1,8 @@
+"use client";
 import { ProductType } from "../../utils";
 import { ProductCard } from "../ProductCard";
 import "./ProductList.css";
+import { useQuery } from "@tanstack/react-query";
 
 interface ProductListType {
   selectedCategory?: string;
@@ -8,16 +10,13 @@ interface ProductListType {
   currentPage: number;
 }
 
-let products: [] = [];
 let newProductsData: [] = [];
 
-export async function ProductList({
+export function ProductList({
   selectedCategory,
   currentPage,
   itemsPerPage,
 }: ProductListType) {
-  // For sharing the url, if products.length < 1, then load in all products. don't skip any
-
   const fetchUrl =
     selectedCategory === ""
       ? `https://dummyjson.com/products?limit=${itemsPerPage}&skip=${
@@ -27,33 +26,32 @@ export async function ProductList({
           currentPage * itemsPerPage
         }`;
 
-  try {
-    const response = await fetch(fetchUrl);
-    if (!response.ok) throw new Error(`${response.status}`);
-    const data = await response.json();
-    newProductsData = data.products;
-  } catch (error) {
-    if (error instanceof Error) {
-      console.log(error.message);
-    }
-  }
+  // Status - information about the data: Do we have any or not?
+  // fetchStatus gives information about the queryFn: Is it running or not?
+  const { isPending, error, data } = useQuery({
+    queryKey: ["products"],
+    queryFn: () => fetch(fetchUrl).then((res) => res.json()),
+  });
 
-  products =
-    currentPage > 0 ? [...products, ...newProductsData] : newProductsData;
+  if (isPending) return <>...loading</>;
+
+  if (error) return <>{error.message}</>;
+
+  // products =
+  //   currentPage > 0 ? [...products, ...newProductsData] : newProductsData;
 
   return (
     <div className="productsContainer">
-      {products.map((product: ProductType) => {
-        // const productQuantity =
-        //   [product.id] && shoppingCartItems[product.id].qty;
-        return (
-          <ProductCard
-            key={product.id}
-            product={product}
-            // productQuantity={productQuantity}
-          />
-        );
-      })}
+      {data &&
+        data.products.map((product: ProductType) => {
+          return (
+            <ProductCard
+              key={product.id}
+              product={product}
+              // productQuantity={productQuantity}
+            />
+          );
+        })}
       {newProductsData.length < 1 && <>No More Products</>}
     </div>
   );

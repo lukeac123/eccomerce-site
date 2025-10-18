@@ -1,6 +1,6 @@
 import "./globals.css";
 import { AppHeader } from "../components";
-import { ShoppingCartStateProvider } from "../utils/ShoppingCartState";
+import { Providers } from "../utils/Providers";
 
 export default function RootLayout({
   children,
@@ -13,10 +13,10 @@ export default function RootLayout({
         <title>Eccomerce Website</title>
       </head>
       <body>
-        <ShoppingCartStateProvider>
+        <Providers>
           <AppHeader />
           {children}
-        </ShoppingCartStateProvider>
+        </Providers>
       </body>
     </html>
   );

@@ -22,7 +22,7 @@ export default async function Page({
   return (
     <div className={styles.appContent}>
       <h2>Product Items</h2>
-      <FilterForm />
+      {/* <FilterForm /> */}
       <Suspense fallback={<>...Fallback</>}>
         <ProductList
           selectedCategory={selectedCategory}
@@ -30,10 +30,10 @@ export default async function Page({
           currentPage={currentPage}
         />
       </Suspense>
-      <Pagination
+      {/* <Pagination
         selectedCategory={selectedCategory}
         currentPage={currentPage}
-      />
+      /> */}
     </div>
   );
 }

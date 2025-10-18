@@ -1300,6 +1300,18 @@
   resolved "https://registry.yarnpkg.com/@tabler/icons/-/icons-3.34.1.tgz#a04a8cf79a5ebdcc44796dfa3de51d04811d2f9f"
   integrity sha512-9gTnUvd7Fd/DmQgr3MKY+oJLa1RfNsQo8c/ir3TJAWghOuZXodbtbVp0QBY2DxWuuvrSZFys0HEbv1CoiI5y6A==
 
+"@tanstack/query-core@5.90.5":
+  version "5.90.5"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.90.5.tgz#0175f9f517514906db8ab379589ed3f96694ecc4"
+  integrity sha512-wLamYp7FaDq6ZnNehypKI5fNvxHPfTYylE0m/ZpuuzJfJqhR5Pxg9gvGBHZx4n7J+V5Rg5mZxHHTlv25Zt5u+w==
+
+"@tanstack/react-query@^5.90.5":
+  version "5.90.5"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.90.5.tgz#545e61282c787bd87ac5785da9a4943462f78ef6"
+  integrity sha512-pN+8UWpxZkEJ/Rnnj2v2Sxpx1WFlaa9L6a4UO89p6tTQbeo+m0MS8oYDjbggrR8QcTyjKoYWKS3xJQGr3ExT8Q==
+  dependencies:
+    "@tanstack/query-core" "5.90.5"
+
 "@testing-library/dom@^10.4.1":
   version "10.4.1"
   resolved "https://registry.yarnpkg.com/@testing-library/dom/-/dom-10.4.1.tgz#d444f8a889e9a46e9a3b4f3b88e0fcb3efb6cf95"
@@ -5512,3 +5524,8 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+zustand@^5.0.8:
+  version "5.0.8"
+  resolved "https://registry.yarnpkg.com/zustand/-/zustand-5.0.8.tgz#b998a0c088c7027a20f2709141a91cb07ac57f8a"
+  integrity sha512-gyPKpIaxY9XcO2vSMrLbiER7QMAMGOQZVRdJ6Zi782jkbzZygq5GI9nG8g+sMgitRtndwaBSl7uiqC49o1SSiw==

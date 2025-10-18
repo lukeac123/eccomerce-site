@@ -32,6 +32,6 @@ export interface ProductCardType {
 }
 
 export interface IncrementComponentTypes {
-  productQuantity: number;
+  productQuantity?: number;
   product: ProductType;
 }
